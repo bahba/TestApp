@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="kapow.png">Resources/images/kapow.png</file>
+        <file alias="boom2.png">Resources/images/boom2.png</file>
+        <file alias="scripting.js">Resources/scripts/scripting.js</file>
+    </qresource>
+</RCC>
