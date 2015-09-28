@@ -4,6 +4,7 @@
 #include <QtScript>
 #include <QMessageBox>
 #include <iostream>
+#include "qlogging.h"
 
 ScriptHandler::ScriptHandler(QWidget *parent)
 	: QMainWindow(parent)
@@ -18,15 +19,13 @@ ScriptHandler::~ScriptHandler()
 
 bool ScriptHandler::runScript(const QString & filename, const QStringList & args)
 {
-	//QString filename(":/test_button_script.js");
-
 	QFile scriptFile(filename);
-	
+
 	if (!scriptFile.exists())
 	{
 		std::cerr << "Error: file " 
 			<< qPrintable(filename) 
-			<< ": " << qPrintable(scriptFile.errorString()) 
+			<< ": " << "does not exist!"/*qPrintable(scriptFile.errorString())*/ 
 			<< std::endl;
 		return false;
 	}
@@ -39,7 +38,7 @@ bool ScriptHandler::runScript(const QString & filename, const QStringList & args
 			<< std::endl;
 		return false;
 	}
-	
+
 	QTextStream stream(&scriptFile);
 	stream.setCodec("UTF-8");
 	QString scriptContent = stream.readAll();
@@ -63,9 +62,28 @@ bool ScriptHandler::runScript(const QString & filename, const QStringList & args
 	QScriptValue qsMetaObject = engine.newQMetaObject(testapp.metaObject());
 	engine.globalObject().setProperty("TestApp", qsMetaObject);
 
-	//qScriptConnect(&testapp, SIGNAL(testapp.signalBoomTriggered()), qsTestapp, )
+	//QScriptValue global = engine.globalObject();
+	//engine.setProperty("emitted", false);
+	QScriptValue qsemitted = engine.globalObject().isBool();
+	qsemitted.setProperty("emitted", false);
+
+	//QScriptValue qsboomSignalEmitted = engine.globalObject().property("boomSignalEmitted").construct(qsemitted);
+	//if (!qScriptConnect(&testapp, SIGNAL(signalBoomTriggered(qsemitted)), qsTestapp, qsboomSignalEmitted))
+	//	qDebug() << "Could not connect signalBoomTriggered(), qsemitted: " << qsemitted.isBool() << "\n";
+	//qsboomSignalEmitted.call(true);
+
+	//QScriptValue qskapowSignalEmitted = engine.globalObject().property("kapowSignalEmitted").construct(qsemitted);
+	//if (!qScriptConnect(&testapp, SIGNAL(signalKapowTriggered(qsemitted)), qsTestapp, qskapowSignalEmitted))
+	//	qDebug() << "Could not connect signalKapowTriggered(), qsemitted: " << qsemitted.isBool() << "\n";
+	//qskapowSignalEmitted.call(true);
+
+	//QScriptValue qsclearScreenSignalEmitted = engine.globalObject().property("clearScreenSignalEmitted").construct(qsemitted);
+	//if (!qScriptConnect(&testapp, SIGNAL(signalClearScreenTriggered()), qsTestapp, qsclearScreenSignalEmitted))
+	//	qDebug() << "Could not connect signalClearScreenTriggered(), qsemitted: " << qsemitted.isBool() << "\n";
+	//qsclearScreenSignalEmitted.call(true);
 
 	engine.evaluate(scriptContent);
+
 	if (engine.hasUncaughtException())
 	{
 		std::cerr << "\nUncaught exception at line "
@@ -76,7 +94,7 @@ bool ScriptHandler::runScript(const QString & filename, const QStringList & args
 			<< std::endl;
 		return false;
 	}
-	
+
 	return true;
 }
 

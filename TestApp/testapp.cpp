@@ -27,14 +27,14 @@ void TestApp::kapowTriggered()
 {
 	ui.labelBoom->setVisible(false);
 	ui.labelKapow->setVisible(true);
-	emit signalKapowTriggered();
+	emit signalKapowTriggered(true);
 }
 
 void TestApp::boomTriggered()
 {
 	ui.labelBoom->setVisible(true);
 	ui.labelKapow->setVisible(false);
-	emit signalBoomTriggered();
+	emit signalBoomTriggered(true);
 }
 
 void TestApp::method(const QString & outputMsg)
@@ -61,6 +61,6 @@ void TestApp::clearScreenTriggered()
 {
 	ui.labelKapow->setVisible(false);
 	ui.labelBoom->setVisible(false);
-	emit signalClearScreenTriggered();
+	emit signalClearScreenTriggered(true);
 }
 

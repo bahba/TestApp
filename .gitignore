@@ -1,0 +1,12 @@
+*.filters
+TestApp/TestApp.vcxproj.user
+*.exe
+Win32/Debug/TestApp.ilk
+*.pdb
+*.tlog
+*.ipch
+*.opensdf
+TestApp.sdf
+*.obj
+*.manifest
+*.log

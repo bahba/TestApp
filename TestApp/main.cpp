@@ -13,14 +13,12 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	ScriptHandler scriptHandler;
 
-	//enable command-line processing
 	QStringList args = QApplication::arguments();
 	if (args.count() >= 3 && args[1] == "-script")
 	{
-		scriptHandler.runScript(args[2], args.mid(3));
-		if (scriptHandler.runScript(args[2], args.mid(3)) == false)
+		if (!scriptHandler.runScript(args[2], args.mid(3)))
 		{
-			std::cerr << "Error: Could not run script" << std::endl;
+			std::cerr << "Error: runScript() failed" << std::endl;
 			return 1;
 		}
 		return 0;

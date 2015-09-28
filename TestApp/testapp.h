@@ -22,9 +22,9 @@ public:
 	};
 
 signals:
-	void signalKapowTriggered();
-	void signalBoomTriggered();
-	void signalClearScreenTriggered();
+	void signalKapowTriggered(bool state = false);
+	void signalBoomTriggered(bool state = false);
+	void signalClearScreenTriggered(bool state = false);
 
 public slots:
 	void method(const QString & outputMsg);
